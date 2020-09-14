@@ -118,6 +118,7 @@ private:
   double         tx_adv_sec         = 0.0; // Transmission time advance to compensate for antenna->timestamp delay
   bool           tx_adv_auto        = false;
   bool           tx_adv_negative    = false;
+  bool           tx_adv_colosseum   = false;
   bool           is_initialized     = false;
   bool           radio_is_streaming = false;
   bool           continuous_tx      = false;
