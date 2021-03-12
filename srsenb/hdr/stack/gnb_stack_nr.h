@@ -64,6 +64,7 @@ public:
   void        stop() final;
   std::string get_type() final;
   bool        get_metrics(srsenb::stack_metrics_t* metrics) final;
+  void        cmd_handover(uint32_t cell1_id, uint32_t cell2_id) {/*TODO*/};
 
   // PHY->MAC interface
   int sf_indication(const uint32_t tti);

@@ -117,6 +117,14 @@ void rrc::get_metrics(rrc_metrics_t& m)
   }
 }
 
+void rrc::handover(uint32_t cell1_id, uint32_t cell2_id)
+{
+  for(std::pair<const uint16_t, std::unique_ptr<ue>> &tuple : users) {
+    // TODO: check if user belongs to cell1
+    tuple.second->mobility_handler->handover(cell2_id);
+  }
+}
+
 /*******************************************************************************
   MAC interface
 

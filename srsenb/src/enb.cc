@@ -214,6 +214,11 @@ void enb::cmd_cell_gain(uint32_t cell_id, float gain)
   phy->cmd_cell_gain(cell_id, gain);
 }
 
+void enb::cmd_handover(uint32_t cell1_id, uint32_t cell2_id)
+{
+  stack->cmd_handover(cell1_id, cell2_id);
+}
+
 srslte::LOG_LEVEL_ENUM enb::level(std::string l)
 {
   std::transform(l.begin(), l.end(), l.begin(), ::toupper);

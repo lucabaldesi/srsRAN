@@ -93,6 +93,7 @@ public:
   void handle_ue_meas_report(const asn1::rrc::meas_report_s& msg);
   void handle_ho_preparation_complete(bool is_success, srslte::unique_byte_buffer_t container);
   bool is_ho_running() const { return not is_in_state<idle_st>(); }
+  void handover(uint32_t target_cell);
 
   // S1-Handover
   bool start_s1_tenb_ho(const asn1::s1ap::ho_request_s&                                   msg,

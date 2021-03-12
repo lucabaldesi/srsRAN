@@ -799,6 +799,14 @@ void rrc::ue::rrc_mobility::handle_ho_preparation_complete(bool is_success, srsl
   trigger(rrchocmd.crit_exts.c1().ho_cmd_r8());
 }
 
+void rrc::ue::rrc_mobility::handover(uint32_t target_cell)
+{
+  ho_meas_report_ev meas_ev{};
+
+  meas_ev.target_eci = (rrc_enb->cfg.enb_id << 8u) + target_cell;
+  trigger(meas_ev);
+}
+
 bool rrc::ue::rrc_mobility::start_s1_tenb_ho(
     const asn1::s1ap::ho_request_s&                                   msg,
     const asn1::s1ap::sourceenb_to_targetenb_transparent_container_s& container)

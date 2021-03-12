@@ -34,6 +34,13 @@ public:
    * @param gain Relative gain
    */
   virtual void cmd_cell_gain(uint32_t cell_id, float gain) = 0;
+
+  /**
+   * Force users in cell1 to handover to cell2.
+   * @param cell1_id id of the source cell
+   * @param cell2_id id of the target (destination) cell
+   */
+  virtual void cmd_handover(uint32_t cell1_id, uint32_t cell2_id) = 0;
 };
 } // namespace srsenb
 
