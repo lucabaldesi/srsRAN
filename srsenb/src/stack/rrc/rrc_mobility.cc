@@ -609,6 +609,7 @@ void rrc::ue::rrc_mobility::handle_ue_meas_report(const meas_report_s& msg)
     Warning("The measurement ID %d provided by the UE does not exist.\n", meas_res.meas_id);
     return;
   }
+  return;
   const meas_result_list_eutra_l& eutra_report_list = meas_res.meas_result_neigh_cells.meas_result_list_eutra();
 
   // Find respective ReportCfg and MeasObj
@@ -840,7 +841,7 @@ bool rrc::ue::rrc_mobility::update_ue_var_meas_cfg(uint32_t                src_e
       for (auto it = ue_var_meas.meas_ids().begin(); it != ue_var_meas.meas_ids().end();) {
         if (it->meas_obj_id == found_src_obj->meas_obj_id) {
           auto rit = it++;
-          ue_var_meas.meas_ids().erase(rit);
+          //ue_var_meas.meas_ids().erase(rit);
         } else {
           ++it;
         }
