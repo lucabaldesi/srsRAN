@@ -46,6 +46,8 @@ public:
   virtual void get_metrics(phy_metrics_t* m) = 0;
 
   virtual void cmd_cell_gain(uint32_t cell_idx, float gain_db) = 0;
+
+  virtual void cmd_cell_earfcn(uint32_t cell_idx, uint32_t dl_earfcn, uint32_t ul_earfcn) = 0;
 };
 
 } // namespace srsenb

@@ -225,6 +225,13 @@ void phy::cmd_cell_gain(uint32_t cell_id, float gain_db)
   workers_common.set_cell_gain(cell_id, gain_db);
 }
 
+void phy::cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn)
+{
+  double dl_freq_hz = 1e6 * srslte_band_fd(dl_earfcn);
+  double ul_freq_hz = 1e6 * srslte_band_fu(ul_earfcn);
+  workers_common.set_cell_frequency(cell_id, dl_freq_hz, ul_freq_hz);
+}
+
 /***** RRC->PHY interface **********/
 
 void phy::set_config(uint16_t rnti, const phy_rrc_cfg_list_t& phy_cfg_list)

@@ -137,6 +137,23 @@ public:
     return c;
   };
 
+  void set_cell_frequency(uint32_t cell_id, double dl_freq_hz, double ul_freq_hz)
+  {
+    auto it =
+        std::find_if(cell_list.begin(), cell_list.end(), [cell_id](phy_cell_cfg_t& x) { return x.cell_id == cell_id; });
+
+    // Check if the cell was found;
+    if (it == cell_list.end()) {
+      srslte::console("cell ID %d not found\n", cell_id);
+      return;
+    }
+
+    it->dl_freq_hz = dl_freq_hz;
+    it->ul_freq_hz = ul_freq_hz;
+    radio->set_tx_freq(it->rf_port, dl_freq_hz);
+    radio->set_rx_freq(it->rf_port, ul_freq_hz);
+  }
+
   void set_cell_gain(uint32_t cell_id, float gain_db)
   {
     auto it =

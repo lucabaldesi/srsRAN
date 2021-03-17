@@ -34,6 +34,14 @@ public:
    * @param gain Relative gain
    */
   virtual void cmd_cell_gain(uint32_t cell_id, float gain) = 0;
+
+  /**
+   * Sets the earfcn a cell from it's index (following rr.conf) order.
+   * @param cell_id Provides a cell identifier
+   * @param dl_earfcn Earfcn in downlink
+   * @param ul_earfcn Earfcn in uplink
+   */
+  virtual void cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn) = 0;
 };
 } // namespace srsenb
 

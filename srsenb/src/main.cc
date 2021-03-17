@@ -437,11 +437,26 @@ static void* input_loop(metrics_stdout* metrics, srsenb::enb_command_interface* 
 
           // Set cell gain
           control->cmd_cell_gain(cell_id, gain_db);
+        } else if (cmd[0] == "earfcn") {
+          if (cmd.size() < 3 || cmd.size() > 4) {
+            cout << "Usage: " << cmd[0] << " [cell identifier] {[dl_earfcn] [ul_earfcn] | [earfcn]}" << endl;
+            continue;
+          }
+
+          // Parse command arguments
+          uint32_t cell_id  = srslte::string_cast<uint32_t>(cmd[1]);
+          uint32_t dl_earfcn  = srslte::string_cast<uint32_t>(cmd[2]);
+	  uint32_t ul_earfcn = dl_earfcn;
+	  if (cmd.size() == 4)
+		  ul_earfcn = srslte::string_cast<uint32_t>(cmd[3]);
+
+          control->cmd_cell_earfcn(cell_id, dl_earfcn, ul_earfcn);
         } else {
           cout << "Available commands: " << endl;
           cout << "          t: starts console trace" << endl;
           cout << "          q: quit srsenb" << endl;
           cout << "  cell_gain: set relative cell gain" << endl;
+          cout << "     earfcn: set the cell earfcn" << endl;
           cout << endl;
         }
       }

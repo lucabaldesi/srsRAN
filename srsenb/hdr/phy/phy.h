@@ -70,6 +70,8 @@ public:
 
   void cmd_cell_gain(uint32_t cell_id, float gain_db) override;
 
+  void cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn) override;
+
   void radio_overflow() override{};
   void radio_failure() override{};
 
