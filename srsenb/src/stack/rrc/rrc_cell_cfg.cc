@@ -41,6 +41,31 @@ pucch_res_common* freq_res_common_list::get_earfcn(uint32_t earfcn)
   return (it == pucch_res_list.end()) ? nullptr : &(it->second);
 }
 
+/**
+ * case 1: src does not exist, return false
+ * case 2: src exists and dst does not exist, move the object and return true
+ * case 3: src exists and dst exists, destroy dest and return true
+ */
+bool freq_res_common_list::move_earfcn(uint32_t dst_dl_earfcn, uint32_t src_dl_earfcn)
+{
+  bool res = false;
+  auto src_obj = pucch_res_list.find(src_dl_earfcn);
+
+  if (dst_dl_earfcn != src_dl_earfcn && src_obj != pucch_res_list.end()) {
+    res = true;
+    auto dst_obj = pucch_res_list.find(dst_dl_earfcn);
+
+    if (dst_obj == pucch_res_list.end()) {  // dst does not exist
+      auto const value = std::move(src_obj->second);
+      pucch_res_list.erase(src_obj);
+      pucch_res_list.insert({dst_dl_earfcn, std::move(value)});
+    } else {  // dst already exists
+      pucch_res_list.erase(src_obj);
+    }
+  }
+  return res;
+}
+
 /*************************
  *    cell ctxt common
  ************************/

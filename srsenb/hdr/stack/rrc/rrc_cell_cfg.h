@@ -49,6 +49,8 @@ public:
 
   pucch_res_common* get_earfcn(uint32_t earfcn);
 
+  bool move_earfcn(uint32_t dst_dl_earfcn, uint32_t src_dl_earfcn);
+
 private:
   const rrc_cfg_t&                     cfg;
   std::map<uint32_t, pucch_res_common> pucch_res_list;

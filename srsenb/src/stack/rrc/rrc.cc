@@ -117,6 +117,28 @@ void rrc::get_metrics(rrc_metrics_t& m)
   }
 }
 
+void rrc::cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn)
+{
+  bool found = false;
+  uint32_t ccidx = 0;
+  double dl_freq_hz = 1e6 * srslte_band_fd(dl_earfcn);
+  double ul_freq_hz = 1e6 * srslte_band_fu(ul_earfcn);
+
+  while (!found && ccidx < cfg.cell_list.size()) {
+    if (cfg.cell_list[ccidx].cell_id == cell_id) {
+      pucch_res_list.get()->move_earfcn(dl_earfcn, cfg.cell_list[ccidx].dl_earfcn);
+      cfg.cell_list[ccidx].dl_earfcn = dl_earfcn;
+      cfg.cell_list[ccidx].ul_earfcn = ul_earfcn;
+      cfg.cell_list[ccidx].dl_freq_hz = dl_freq_hz;
+      cfg.cell_list[ccidx].ul_freq_hz = ul_freq_hz;
+      found = true;
+    } else
+      ccidx++;
+  }
+  if (!found)
+      srslte::console("cell ID %d not found\n", cell_id);
+}
+
 /*******************************************************************************
   MAC interface
 

@@ -217,7 +217,7 @@ void enb::cmd_cell_gain(uint32_t cell_id, float gain)
 void enb::cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn)
 {
   phy->cmd_cell_earfcn(cell_id, dl_earfcn, ul_earfcn);
-  //stack->cmd_cell_earfn(cell_id, dl_earfcn, ul_earfcn);
+  stack->cmd_cell_earfcn(cell_id, dl_earfcn, ul_earfcn);
 }
 
 srslte::LOG_LEVEL_ENUM enb::level(std::string l)

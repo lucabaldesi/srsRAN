@@ -91,6 +91,7 @@ public:
 
   // eNB metrics interface
   virtual bool get_metrics(stack_metrics_t* metrics) = 0;
+  virtual void cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn) = 0;
 };
 
 } // namespace srsenb
