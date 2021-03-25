@@ -1553,15 +1553,12 @@ srslte::proc_outcome_t rrc::ho_proc::init(const asn1::rrc::rrc_conn_recfg_s& rrc
 
   // Target cell shall be either serving cell (intra-cell HO) or neighbour cell
   meas_cell* cell_to_ho = rrc_ptr->meas_cells.find_cell(target_earfcn, mob_ctrl_info->target_pci);
-  if (cell_to_ho != nullptr) {
+  if (cell_to_ho != nullptr)
     target_cell = cell_to_ho->phy_cell;
-  } else {
-    srslte::console("Received HO command to unknown PCI=%d\n", mob_ctrl_info->target_pci);
-    Error("Could not find target cell earfcn=%d, pci=%d\n",
-          rrc_ptr->meas_cells.serving_cell().get_earfcn(),
-          mob_ctrl_info->target_pci);
-    rrc_ptr->con_reconfig_failed();
-    return proc_outcome_t::error;
+  else {
+    target_cell.pci = mob_ctrl_info->target_pci;
+    target_cell.earfcn = target_earfcn;
+    target_cell.cfo_hz = 0;
   }
 
   // Save serving cell and current configuration

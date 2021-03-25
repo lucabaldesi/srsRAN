@@ -139,6 +139,14 @@ void rrc::cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn)
       srslte::console("cell ID %d not found\n", cell_id);
 }
 
+void rrc::handover(uint32_t cell1_id, uint32_t cell2_id)
+{
+  for(std::pair<const uint16_t, std::unique_ptr<ue>> &tuple : users) {
+    // TODO: check if user belongs to cell1
+    tuple.second->mobility_handler->handover(cell2_id);
+  }
+}
+
 /*******************************************************************************
   MAC interface
 

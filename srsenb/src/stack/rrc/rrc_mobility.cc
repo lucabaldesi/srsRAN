@@ -609,6 +609,7 @@ void rrc::ue::rrc_mobility::handle_ue_meas_report(const meas_report_s& msg)
     Warning("The measurement ID %d provided by the UE does not exist.\n", meas_res.meas_id);
     return;
   }
+  return;
   const meas_result_list_eutra_l& eutra_report_list = meas_res.meas_result_neigh_cells.meas_result_list_eutra();
 
   // Find respective ReportCfg and MeasObj
@@ -799,6 +800,14 @@ void rrc::ue::rrc_mobility::handle_ho_preparation_complete(bool is_success, srsl
   trigger(rrchocmd.crit_exts.c1().ho_cmd_r8());
 }
 
+void rrc::ue::rrc_mobility::handover(uint32_t target_cell)
+{
+  ho_meas_report_ev meas_ev{};
+
+  meas_ev.target_eci = (rrc_enb->cfg.enb_id << 8u) + target_cell;
+  trigger(meas_ev);
+}
+
 bool rrc::ue::rrc_mobility::start_s1_tenb_ho(
     const asn1::s1ap::ho_request_s&                                   msg,
     const asn1::s1ap::sourceenb_to_targetenb_transparent_container_s& container)
@@ -832,7 +841,7 @@ bool rrc::ue::rrc_mobility::update_ue_var_meas_cfg(uint32_t                src_e
       for (auto it = ue_var_meas.meas_ids().begin(); it != ue_var_meas.meas_ids().end();) {
         if (it->meas_obj_id == found_src_obj->meas_obj_id) {
           auto rit = it++;
-          ue_var_meas.meas_ids().erase(rit);
+          //ue_var_meas.meas_ids().erase(rit);
         } else {
           ++it;
         }

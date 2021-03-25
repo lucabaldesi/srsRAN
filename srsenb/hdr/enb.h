@@ -133,6 +133,7 @@ public:
   // eNodeB command interface
   void cmd_cell_gain(uint32_t cell_id, float gain) override;
   void cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn) override;
+  void cmd_handover(uint32_t cell1_id, uint32_t cell2_id) override;
 
 private:
   const static int ENB_POOL_SIZE = 1024 * 10;

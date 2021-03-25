@@ -451,12 +451,24 @@ static void* input_loop(metrics_stdout* metrics, srsenb::enb_command_interface* 
 		  ul_earfcn = srslte::string_cast<uint32_t>(cmd[3]);
 
           control->cmd_cell_earfcn(cell_id, dl_earfcn, ul_earfcn);
+        } else if (cmd[0] == "handover") {
+          if (cmd.size() != 3) {
+            cout << "Usage: " << cmd[0] << " [cell1 identifier] [cell2 identifier]" << endl;
+            continue;
+          }
+
+          // Parse command arguments
+          uint32_t cell1_id  = srslte::string_cast<uint32_t>(cmd[1]);
+          uint32_t cell2_id  = srslte::string_cast<uint32_t>(cmd[2]);
+
+          control->cmd_handover(cell1_id, cell2_id);
         } else {
           cout << "Available commands: " << endl;
           cout << "          t: starts console trace" << endl;
           cout << "          q: quit srsenb" << endl;
           cout << "  cell_gain: set relative cell gain" << endl;
           cout << "     earfcn: set the cell earfcn" << endl;
+          cout << "   handover: force handover from one cell to another" << endl;
           cout << endl;
         }
       }
