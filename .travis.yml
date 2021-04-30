@@ -1,5 +1,5 @@
+os: linux
 dist: bionic
-sudo: required
 
 before_script:
    - sudo apt-get -qq update
