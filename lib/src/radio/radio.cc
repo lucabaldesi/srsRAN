@@ -803,10 +803,10 @@ double radio::get_dev_cal_tx_adv_sec(const std::string& device_name)
         nsamples = 670;
       } else {
         /* Interpolate from known values */
-        log_h->console(
+        srslte::console(
             "\nWarning TX/RX time offset for sampling rate %.0f KHz not calibrated. Using interpolated value\n\n",
             cur_tx_srate);
-        nsamples = cur_tx_srate * (uhd_default_tx_adv_samples * (1 / cur_tx_srate) + uhd_default_tx_adv_offset_sec);
+        nsamples = uhd_default_tx_adv_samples + (int)(cur_tx_srate * uhd_default_tx_adv_offset_sec);
       }
     } else if (device_name == "uhd_b200") {
 
@@ -953,8 +953,6 @@ void radio::set_tx_srate(const double& srate)
     tx_adv_sec *= -1;
     tx_adv_negative = true;
   }
-
-  log_h->console("Setting sample rate to: %f MHz, nsamples: %d, tx_adv_usec: %f\n", cur_tx_srate/1e6, nsamples, tx_adv_sec*1e6);
 }
 
 srslte_rf_info_t* radio::get_info()
