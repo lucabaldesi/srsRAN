@@ -153,7 +153,11 @@ int radio::init(const rf_args_t& args, phy_interface_radio* phy_)
 
   // Set RF options
   tx_adv_auto = true;
-  if (args.time_adv_nsamples != "auto") {
+  if (args.time_adv_nsamples == "colosseum")
+  {
+      tx_adv_colosseum = true;
+  }
+  else if (args.time_adv_nsamples != "auto") {
     int t = (int)strtol(args.time_adv_nsamples.c_str(), nullptr, 10);
     set_tx_adv(abs(t));
     set_tx_adv_neg(t < 0);
@@ -775,9 +779,36 @@ double radio::get_dev_cal_tx_adv_sec(const std::string& device_name)
   /* Set time advance for each known device if in auto mode */
   if (tx_adv_auto) {
 
-    /* This values have been calibrated using the prach_test_usrp tool in srsLTE */
-
-    if (device_name == "uhd_b200") {
+    /* This values have been calibrated from testing on colosseum */
+    if (tx_adv_colosseum)
+    {
+      double srate_khz = round(cur_tx_srate / 1e3);
+      if (srate_khz == 1.92e3) {
+        // 6 PRB
+        nsamples = 98;
+      } else if (srate_khz == 3.84e3) {
+        // 15 PRB
+        nsamples = 150;
+      } else if (srate_khz == 5.76e3) {
+        // 25 PRB
+        nsamples = 200;
+      } else if (srate_khz == 11.52e3) {
+        // 50 PRB
+        nsamples = 350;
+      } else if (srate_khz == 15.36e3) {
+        // 75 PRB
+        nsamples = 450;
+      } else if (srate_khz == 23.04e3) {
+        // 100 PRB
+        nsamples = 670;
+      } else {
+        /* Interpolate from known values */
+        log_h->console(
+            "\nWarning TX/RX time offset for sampling rate %.0f KHz not calibrated. Using interpolated value\n\n",
+            cur_tx_srate);
+        nsamples = cur_tx_srate * (uhd_default_tx_adv_samples * (1 / cur_tx_srate) + uhd_default_tx_adv_offset_sec);
+      }
+    } else if (device_name == "uhd_b200") {
 
       double srate_khz = round(cur_tx_srate / 1e3);
       if (srate_khz == 1.92e3) {
@@ -922,6 +953,8 @@ void radio::set_tx_srate(const double& srate)
     tx_adv_sec *= -1;
     tx_adv_negative = true;
   }
+
+  log_h->console("Setting sample rate to: %f MHz, nsamples: %d, tx_adv_usec: %f\n", cur_tx_srate/1e6, nsamples, tx_adv_sec*1e6);
 }
 
 srslte_rf_info_t* radio::get_info()
