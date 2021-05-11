@@ -729,9 +729,7 @@ int srslte_prach_process(srslte_prach_t* p,
           }
           if (t_offsets) {
             // saves the PRACH offset in seconds to t_offsets, time domain or freq domain base calc
-            t_offsets[*n_indices] = (p->freq_domain_offset_calc)
-                                        ? (srslte_prach_calculate_time_offset_secs(p, p->cross))
-                                        : (srslte_prach_get_offset_secs(p, j));
+            t_offsets[*n_indices] = (float) p->peak_offsets[j] * p->T_seq / p->N_zc;
           }
           (*n_indices)++;
         }
