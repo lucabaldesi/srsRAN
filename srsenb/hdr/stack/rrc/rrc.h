@@ -68,6 +68,7 @@ public:
   void get_metrics(rrc_metrics_t& m);
   void cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn);
   void handover(uint32_t cell1_id, uint32_t cell2_id);
+  void cell_info(void);
   void tti_clock();
 
   // rrc_interface_mac

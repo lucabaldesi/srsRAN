@@ -225,6 +225,11 @@ void enb::cmd_handover(uint32_t cell1_id, uint32_t cell2_id)
   stack->cmd_handover(cell1_id, cell2_id);
 }
 
+void enb::cmd_cell_info(void)
+{
+  stack->cmd_cell_info();
+}
+
 srslte::LOG_LEVEL_ENUM enb::level(std::string l)
 {
   std::transform(l.begin(), l.end(), l.begin(), ::toupper);

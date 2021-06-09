@@ -60,6 +60,7 @@ public:
   bool        get_metrics(stack_metrics_t* metrics) final;
   void        cmd_cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn) {rrc.cell_earfcn(cell_id, dl_earfcn, ul_earfcn);};
   void        cmd_handover(uint32_t cell1_id, uint32_t cell2_id) {rrc.handover(cell1_id, cell2_id);};
+  void        cmd_cell_info(void) {rrc.cell_info();};
 
   /* PHY-MAC interface */
   int  sr_detected(uint32_t tti, uint16_t rnti) final { return mac.sr_detected(tti, rnti); }

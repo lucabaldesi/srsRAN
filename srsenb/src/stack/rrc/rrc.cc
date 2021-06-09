@@ -141,9 +141,35 @@ void rrc::cell_earfcn(uint32_t cell_id, uint32_t dl_earfcn, uint32_t ul_earfcn)
 
 void rrc::handover(uint32_t cell1_id, uint32_t cell2_id)
 {
+  uint32_t pcell_id;
+
   for(std::pair<const uint16_t, std::unique_ptr<ue>> &tuple : users) {
-    // TODO: check if user belongs to cell1
-    tuple.second->mobility_handler->handover(cell2_id);
+    pcell_id = tuple.second->get_primary_cell_id();
+    if (pcell_id == cell1_id && pcell_id != cell2_id) {
+      srslte::console("Handovering user 0x%x from cell %d to cell %d\n", tuple.second->rnti, cell1_id, cell2_id);
+      tuple.second->mobility_handler->handover(cell2_id);
+    }
+  }
+}
+
+void rrc::cell_info(void)
+{
+  uint32_t ccidx = 0;
+  uint32_t pcell_id;
+
+  for (ccidx=0; ccidx < cfg.cell_list.size(); ccidx++) {
+    srslte::console("Cell %u, id:%u\n", ccidx, cfg.cell_list[ccidx].cell_id);
+    srslte::console("\tDL earfcn: %u, UL earfcn: %u\n", cfg.cell_list[ccidx].dl_earfcn, cfg.cell_list[ccidx].ul_earfcn);
+    srslte::console("\tDL frequency [Hz]: %f, UL frequency [Hz]: %f\n", cfg.cell_list[ccidx].dl_freq_hz, cfg.cell_list[ccidx].ul_freq_hz);
+    srslte::console("\tUsers (primary cell):");
+
+    for(std::pair<const uint16_t, std::unique_ptr<ue>> &tuple : users) {
+      pcell_id = tuple.second->get_primary_cell_id();
+      if (pcell_id == cfg.cell_list[ccidx].cell_id) {
+        srslte::console("0x%x", tuple.second->rnti);
+      }
+    }
+    srslte::console("\n");
   }
 }
 

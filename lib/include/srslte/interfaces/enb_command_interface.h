@@ -49,6 +49,11 @@ public:
    * @param cell2_id id of the target (destination) cell
    */
   virtual void cmd_handover(uint32_t cell1_id, uint32_t cell2_id) = 0;
+
+  /**
+   * Show cell information
+   */
+  virtual void cmd_cell_info(void) = 0;
 };
 } // namespace srsenb
 

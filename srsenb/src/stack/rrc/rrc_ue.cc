@@ -1530,4 +1530,16 @@ int rrc::ue::get_ri(uint32_t m_ri, uint16_t* ri_idx)
   return ret;
 }
 
+uint32_t rrc::ue::get_primary_cell_id(void)
+{
+  const cell_info_common* pcell_cfg = get_ue_cc_cfg(UE_PCELL_CC_IDX);
+  uint32_t cell_id = 0;
+
+  if (pcell_cfg) {
+    cell_id = pcell_cfg->cell_cfg.cell_id;
+  }
+
+  return cell_id;
+}
+
 } // namespace srsenb

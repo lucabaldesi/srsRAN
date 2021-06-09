@@ -462,6 +462,13 @@ static void* input_loop(metrics_stdout* metrics, srsenb::enb_command_interface* 
           uint32_t cell2_id  = srslte::string_cast<uint32_t>(cmd[2]);
 
           control->cmd_handover(cell1_id, cell2_id);
+        } else if (cmd[0] == "cell_info") {
+          if (cmd.size() != 1) {
+            cout << "Usage: " << cmd[0] << endl;
+            continue;
+          }
+
+          control->cmd_cell_info();
         } else {
           cout << "Available commands: " << endl;
           cout << "          t: starts console trace" << endl;
@@ -469,6 +476,7 @@ static void* input_loop(metrics_stdout* metrics, srsenb::enb_command_interface* 
           cout << "  cell_gain: set relative cell gain" << endl;
           cout << "     earfcn: set the cell earfcn" << endl;
           cout << "   handover: force handover from one cell to another" << endl;
+          cout << "  cell_info: show cell information" << endl;
           cout << endl;
         }
       }

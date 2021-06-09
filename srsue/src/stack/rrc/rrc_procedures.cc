@@ -1695,7 +1695,7 @@ srslte::proc_outcome_t rrc::ho_proc::react(ra_completed_ev ev)
 
 void rrc::ho_proc::then(const srslte::proc_state_t& result)
 {
-  Info("HO to PCI=%d, EARFCN=%d %ssuccessful\n", target_cell.pci, target_cell.earfcn, result.is_success() ? "" : "un");
+  srslte::console("HO to PCI=%d, EARFCN=%d %ssuccessful\n", target_cell.pci, target_cell.earfcn, result.is_success() ? "" : "un");
   srslte::console("HO %ssuccessful\n", result.is_success() ? "" : "un");
 
   rrc_ptr->t304.stop();

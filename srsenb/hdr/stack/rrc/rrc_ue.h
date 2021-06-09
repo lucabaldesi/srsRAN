@@ -93,6 +93,7 @@ public:
   bool send_dl_dcch(const asn1::rrc::dl_dcch_msg_s* dl_dcch_msg,
                     srslte::unique_byte_buffer_t    pdu = srslte::unique_byte_buffer_t());
 
+  uint32_t get_primary_cell_id(void);
   uint16_t rnti   = 0;
   rrc*     parent = nullptr;
 
