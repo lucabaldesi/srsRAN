@@ -857,7 +857,7 @@ double radio::get_dev_cal_tx_adv_sec(const std::string& device_name)
         nsamples = 670;
       } else {
         /* Interpolate from known values */
-        srslte::console(
+        srsran::console(
             "\nWarning TX/RX time offset for sampling rate %.0f KHz not calibrated. Using interpolated value\n\n",
             cur_tx_srate);
         nsamples = uhd_default_tx_adv_samples + (int)(cur_tx_srate * uhd_default_tx_adv_offset_sec);
